@@ -22,8 +22,8 @@
                 if (verb == "POST") {
                     http.open(verb, url, true);
                     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    // http.setRequestHeader("Content-length", params.length);
-                    // http.setRequestHeader("Connection", "close");
+                    http.setRequestHeader("Content-length", params.length);
+                    http.setRequestHeader("Connection", "close");
                     body = params;
                 } else {
                     http.open(verb, url + "?" + params, true);
@@ -35,7 +35,7 @@
                         OutputGameList(http.responseText);
                 }
 
-                alert(body);
+                // alert(body);
                 http.send(body);
             }
 
