@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <script lang="JavaScript">
+            // Call the REST Create API via AJAX
+            function CreateGame() {
+                var playerName = document.getElementById("txtPlayer").value;
+                var duration = document.getElementById("txtDuration").value;
+                var params = "player="+playerName+"&duration="+duration;
+
+                CallApi("POST","/Game", params);
+            }
+
+            // Call the REST List API via AJAX
+            function ListGames() {
+                CallApi("GET", "/Game", null);
+            }
+
+            function CallApi(verb, url, params) {
+                OutputGameList(params);
+                var http = new XMLHttpRequest();
+                var body;
+                if (verb == "POST") {
+                    http.open(verb, url, true);
+                    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    // http.setRequestHeader("Content-length", params.length);
+                    // http.setRequestHeader("Connection", "close");
+                    body = params;
+                } else {
+                    http.open(verb, url + "?" + params, true);
+                    body = null;
+                }
+
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200)
+                        OutputGameList(http.responseText);
+                }
+
+                alert(body);
+                http.send(body);
+            }
+
+            function OutputGameList(gameList) {
+                document.getElementById("GameList").innerText = "RESPONSE: " + gameList;
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Some straight HTML tests against the API -->
+        <!-- First POST for the "Create a new game" -->
+        <form action="/Game" method="POST">
+            Player name: <input type="text" name="player" id="txtPlayer" value="Default" /><br/>
+            Game Duration (hours): <input type="text" name="duration" id="txtDuration" value="24" /><br/>
+            <input type="submit" value="Create a game via a FORM POST" />
+        </form>
+        <!-- Second GET for the "Get games list" -->
+        <button onclick="window.location.assign('/Game')">List games via a GET</button><br/></br/>
+        <!-- And now an actual JavaScript clients -->
+        <button onclick="CreateGame()">Create a game via REST API</button><br/><br/>
+        <button onclick="ListGames()">List games via REST API</button><br/>
+        <hr/>
+        <span id="GameList" />
+    </body>
+</html>
