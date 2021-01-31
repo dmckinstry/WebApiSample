@@ -16,7 +16,6 @@
             }
 
             function CallApi(verb, url, params) {
-                OutputGameList(params);
                 var http = new XMLHttpRequest();
                 var body;
                 if (verb == "POST") {
@@ -35,12 +34,17 @@
                         OutputGameList(http.responseText);
                 }
 
-                // alert(body);
                 http.send(body);
             }
 
             function OutputGameList(gameList) {
-                document.getElementById("GameList").innerText = "RESPONSE: " + gameList;
+                document.getElementById("GameList").innerText  = gameList;
+                // gameListJson = JSON.parse(gameList);
+                // var htmlList = "<table><tr><th>Game ID</th><th>Started at</th><th>By</th></tr>"
+                // gameListJson.forEach(game => {
+                //     htmlList += "<tr><td>" + game.GameId + "</td><td>" + game.Starting + "</td><td>" + game.Players[0] + "</td></tr>"
+                // });
+                // document.getElementById("GameList").innerText  = htmlList + "</table>"
             }
         </script>
     </head>
